@@ -75,13 +75,37 @@ All JK-BMS models with software version `>=6.0` are using the implemented protoc
 
 
 ```
-                UART-TTL
-┌──────────┐                ┌─────────┐
-│          │<----- RX ----->│         │
-│  JK-BMS  │<----- TX ----->│ ESP32/  │
-│          │<----- GND ---->│ ESP8266 │<-- 3.3V
-│          │                │         │<-- GND
-└──────────┘                └─────────┘
+                                                          Blue LED (CAN ACTIVITY - RCV frame)
+                                                             │
+                                                             │
+┌──────────────┐      | 3.3V TTL |    ┌──────────────────┐   │    | 5V TTL |      ┌────────────────┐
+│            1 │-----> GND     GND -->│ GND          13  │---┘              5V -->│ VCC            │
+│            2 │<----- RX ----------->│ 17           12  │------ TX ------------->│ TX           H │<---->    RJ45 (4)
+│  JK-BMS    3 │<----- TX ----------->│ 18  ESP32    14  │<----- RX --| 4K7 |-----│ RX     CAN   L │<---->    RJ45 (5)
+│            4 │<-- VBAT ─┐     5V -->│ 5V               │                 GND -->│ GND  TJA1050   │        (blue pair)
+└──────────────┘          │           └──────────────────┘                        └────────────────┘ 
+                          │
+                          │
+                        ┌───┐ 
+                        │   │
+                        │ R │ 51 Ohm  ( To limit IN capacitor charge spike )
+                        │   │  
+                        └───┘                          │
+                          │
+                        ┌───┐ 
+                        │ F │
+                        │ U │
+                        │ S │
+                        │ E │  
+                        └───┘  GND 
+                          │     |
+                    ┌───────────────┐
+                    │    VIN   GND  │
+                    │               │
+                    │  XL7015  VOUT │---> 5V
+                    │  DC/DC    GND │<--> GND
+                    └───────────────┘  
+        
 
 # UART-TTL socket (4 Pin, JST 1.25mm pitch)
 ┌─── ─────── ────┐
@@ -90,8 +114,8 @@ All JK-BMS models with software version `>=6.0` are using the implemented protoc
 │GND  RX  TX VBAT│
 └────────────────┘
   │   │   │
-  │   │   └─── GPIO17 (`rx_pin`)
-  │   └─────── GPIO16 (`tx_pin`)
+  │   │   └─── GPIO18 (`bms_rx_pin`)
+  │   └─────── GPIO17 (`bms_tx_pin`)
   └─────────── GND
 ```
 

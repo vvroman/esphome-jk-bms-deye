@@ -4,6 +4,9 @@ substitutions:
   external_components_source: github://syssi/esphome-jk-bms@main
   bms_tx_pin: GPIO17
   bms_rx_pin: GPIO18
+  can_tx_pin: GPIO12
+  can_rx_pin: GPIO14
+  cna_activity_pin: GPIO13 # blue LED on FeatherS3 board
 
 esphome:
   name: ${name}
