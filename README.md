@@ -1,3 +1,8 @@
+# Changes:
+  - new yaml template: `esp32-feathers3-deye.yaml`
+  - use feather3s hardware
+  - UART pins: GPIO17(TX) GPIO18(RX)
+
 # esphome-jk-bms
 
 ![GitHub actions](https://github.com/syssi/esphome-jk-bms/actions/workflows/ci.yaml/badge.svg)
